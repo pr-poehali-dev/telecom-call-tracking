@@ -53,6 +53,10 @@ const Index = () => {
     });
   };
 
+  const goToUserView = () => {
+    navigate('/');
+  };
+
   const [subscribers, setSubscribers] = useState<Subscriber[]>([
     {
       id: '1',
@@ -210,9 +214,13 @@ const Index = () => {
               <Icon name="Phone" size={24} className="text-primary" />
               <h1 className="text-xl font-bold">Учет переговоров</h1>
             </div>
-            <div className="flex items-center gap-3">
-              <div className="text-right hidden sm:block">
-                <div className="text-xs text-muted-foreground">Пользователь</div>
+            <div className="flex items-center gap-2">
+              <Button variant="ghost" size="sm" onClick={goToUserView} className="gap-1.5">
+                <Icon name="User" size={14} />
+                <span className="hidden sm:inline">Мой кабинет</span>
+              </Button>
+              <div className="text-right hidden md:block">
+                <div className="text-xs text-muted-foreground">Администратор</div>
                 <div className="text-sm font-medium">{user?.full_name}</div>
               </div>
               <Button variant="outline" size="sm" onClick={handleLogout} className="gap-1.5">
