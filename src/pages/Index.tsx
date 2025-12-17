@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
@@ -9,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface Subscriber {
   id: string;
@@ -38,7 +40,18 @@ interface Tariff {
 
 const Index = () => {
   const { toast } = useToast();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('subscribers');
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+    toast({
+      title: 'Выход выполнен',
+      description: 'Вы успешно вышли из системы',
+    });
+  };
 
   const [subscribers, setSubscribers] = useState<Subscriber[]>([
     {
@@ -192,9 +205,21 @@ const Index = () => {
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white border-b">
         <div className="container mx-auto px-4 py-3">
-          <div className="flex items-center gap-2">
-            <Icon name="Phone" size={24} className="text-primary" />
-            <h1 className="text-xl font-bold">Учет переговоров</h1>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Icon name="Phone" size={24} className="text-primary" />
+              <h1 className="text-xl font-bold">Учет переговоров</h1>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="text-right hidden sm:block">
+                <div className="text-xs text-muted-foreground">Пользователь</div>
+                <div className="text-sm font-medium">{user?.full_name}</div>
+              </div>
+              <Button variant="outline" size="sm" onClick={handleLogout} className="gap-1.5">
+                <Icon name="LogOut" size={14} />
+                <span className="hidden sm:inline">Выход</span>
+              </Button>
+            </div>
           </div>
         </div>
       </header>

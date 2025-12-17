@@ -1,0 +1,37 @@
+{
+  "tests": [
+    {
+      "name": "Успешная авторизация",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "email": "test@example.com",
+        "password": "password123"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "token": "string",
+        "user": {
+          "id": "number",
+          "email": "string",
+          "full_name": "string"
+        }
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Ошибка при неверном пароле",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "email": "test@example.com",
+        "password": "wrongpassword"
+      },
+      "expectedStatus": 401,
+      "expectedBody": {
+        "error": "string"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

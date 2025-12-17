@@ -1,0 +1,39 @@
+{
+  "tests": [
+    {
+      "name": "Успешная регистрация пользователя",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "email": "test@example.com",
+        "password": "password123",
+        "full_name": "Тестовый Пользователь"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "token": "string",
+        "user": {
+          "id": "number",
+          "email": "string",
+          "full_name": "string"
+        }
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Ошибка при пустых полях",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "email": "",
+        "password": "",
+        "full_name": ""
+      },
+      "expectedStatus": 400,
+      "expectedBody": {
+        "error": "string"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
