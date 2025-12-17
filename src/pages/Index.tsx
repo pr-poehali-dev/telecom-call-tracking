@@ -190,79 +190,69 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center gap-3">
-            <Icon name="Phone" size={28} className="text-primary" />
-            <h1 className="text-2xl font-bold text-gray-900">Учет телефонных переговоров</h1>
+      <header className="bg-white border-b">
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex items-center gap-2">
+            <Icon name="Phone" size={24} className="text-primary" />
+            <h1 className="text-xl font-bold">Учет переговоров</h1>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-6 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader className="pb-3">
-              <CardDescription>Всего звонков</CardDescription>
-              <CardTitle className="text-3xl text-primary">{totalCalls}</CardTitle>
-            </CardHeader>
-          </Card>
+      <main className="container mx-auto px-4 py-4">
+        <Card className="mb-4">
+          <CardContent className="pt-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-primary mb-1">{totalCalls}</div>
+                <div className="text-xs text-muted-foreground">Звонков</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-primary mb-1">{totalCost.toFixed(0)} ₽</div>
+                <div className="text-xs text-muted-foreground">Стоимость</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-primary mb-1">{avgDuration.toFixed(0)} мин</div>
+                <div className="text-xs text-muted-foreground">Средняя длит.</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-primary mb-1">{subscribers.length}</div>
+                <div className="text-xs text-muted-foreground">Абонентов</div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader className="pb-3">
-              <CardDescription>Общая стоимость</CardDescription>
-              <CardTitle className="text-3xl text-primary">{totalCost.toFixed(2)} ₽</CardTitle>
-            </CardHeader>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader className="pb-3">
-              <CardDescription>Средняя длительность</CardDescription>
-              <CardTitle className="text-3xl text-primary">{avgDuration.toFixed(1)} мин</CardTitle>
-            </CardHeader>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader className="pb-3">
-              <CardDescription>Абонентов</CardDescription>
-              <CardTitle className="text-3xl text-primary">{subscribers.length}</CardTitle>
-            </CardHeader>
-          </Card>
-        </div>
-
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="subscribers" className="flex items-center gap-2">
-              <Icon name="Users" size={18} />
-              <span>Абоненты</span>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+          <TabsList className="grid w-full grid-cols-4 h-10">
+            <TabsTrigger value="subscribers" className="gap-1.5 text-xs">
+              <Icon name="Users" size={14} />
+              <span className="hidden sm:inline">Абоненты</span>
             </TabsTrigger>
-            <TabsTrigger value="calls" className="flex items-center gap-2">
-              <Icon name="PhoneCall" size={18} />
-              <span>Звонки</span>
+            <TabsTrigger value="calls" className="gap-1.5 text-xs">
+              <Icon name="PhoneCall" size={14} />
+              <span className="hidden sm:inline">Звонки</span>
             </TabsTrigger>
-            <TabsTrigger value="tariffs" className="flex items-center gap-2">
-              <Icon name="DollarSign" size={18} />
-              <span>Тарифы</span>
+            <TabsTrigger value="tariffs" className="gap-1.5 text-xs">
+              <Icon name="DollarSign" size={14} />
+              <span className="hidden sm:inline">Тарифы</span>
             </TabsTrigger>
-            <TabsTrigger value="analytics" className="flex items-center gap-2">
-              <Icon name="BarChart3" size={18} />
-              <span>Аналитика</span>
+            <TabsTrigger value="analytics" className="gap-1.5 text-xs">
+              <Icon name="BarChart3" size={14} />
+              <span className="hidden sm:inline">Аналитика</span>
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="subscribers" className="space-y-4">
+          <TabsContent value="subscribers">
             <Card>
-              <CardHeader>
+              <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle>Абоненты</CardTitle>
-                    <CardDescription>Управление данными юридических лиц</CardDescription>
-                  </div>
+                  <CardTitle className="text-base">Абоненты</CardTitle>
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button className="flex items-center gap-2">
-                        <Icon name="Plus" size={18} />
-                        Добавить абонента
+                      <Button size="sm" className="gap-1.5 h-8">
+                        <Icon name="Plus" size={14} />
+                        <span className="hidden sm:inline">Добавить</span>
                       </Button>
                     </DialogTrigger>
                     <DialogContent>
@@ -270,53 +260,58 @@ const Index = () => {
                         <DialogTitle>Новый абонент</DialogTitle>
                         <DialogDescription>Добавьте данные юридического лица</DialogDescription>
                       </DialogHeader>
-                      <div className="space-y-4">
+                      <div className="space-y-3">
                         <div>
-                          <Label htmlFor="name">Название организации *</Label>
+                          <Label htmlFor="name" className="text-xs">Название организации *</Label>
                           <Input
                             id="name"
                             value={newSubscriber.name}
                             onChange={e => setNewSubscriber({ ...newSubscriber, name: e.target.value })}
                             placeholder="ООО «Компания»"
+                            className="h-9"
                           />
                         </div>
                         <div>
-                          <Label htmlFor="inn">ИНН *</Label>
+                          <Label htmlFor="inn" className="text-xs">ИНН *</Label>
                           <Input
                             id="inn"
                             value={newSubscriber.inn}
                             onChange={e => setNewSubscriber({ ...newSubscriber, inn: e.target.value })}
                             placeholder="1234567890"
+                            className="h-9"
                           />
                         </div>
                         <div>
-                          <Label htmlFor="account">Расчетный счет</Label>
+                          <Label htmlFor="account" className="text-xs">Расчетный счет</Label>
                           <Input
                             id="account"
                             value={newSubscriber.account}
                             onChange={e => setNewSubscriber({ ...newSubscriber, account: e.target.value })}
                             placeholder="40702810400000012345"
+                            className="h-9"
                           />
                         </div>
                         <div>
-                          <Label htmlFor="phone">Телефон</Label>
+                          <Label htmlFor="phone" className="text-xs">Телефон</Label>
                           <Input
                             id="phone"
                             value={newSubscriber.phone}
                             onChange={e => setNewSubscriber({ ...newSubscriber, phone: e.target.value })}
                             placeholder="+7 (___) ___-__-__"
+                            className="h-9"
                           />
                         </div>
                         <div>
-                          <Label htmlFor="contact">Контактное лицо</Label>
+                          <Label htmlFor="contact" className="text-xs">Контактное лицо</Label>
                           <Input
                             id="contact"
                             value={newSubscriber.contact}
                             onChange={e => setNewSubscriber({ ...newSubscriber, contact: e.target.value })}
                             placeholder="Иванов И.И."
+                            className="h-9"
                           />
                         </div>
-                        <Button onClick={addSubscriber} className="w-full">
+                        <Button onClick={addSubscriber} className="w-full h-9">
                           Добавить
                         </Button>
                       </div>
@@ -324,25 +319,25 @@ const Index = () => {
                   </Dialog>
                 </div>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-0">
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Название</TableHead>
-                      <TableHead>ИНН</TableHead>
-                      <TableHead>Расчетный счет</TableHead>
-                      <TableHead>Телефон</TableHead>
-                      <TableHead>Контактное лицо</TableHead>
+                      <TableHead className="text-xs">Название</TableHead>
+                      <TableHead className="text-xs">ИНН</TableHead>
+                      <TableHead className="text-xs hidden md:table-cell">Р/счет</TableHead>
+                      <TableHead className="text-xs hidden lg:table-cell">Телефон</TableHead>
+                      <TableHead className="text-xs hidden lg:table-cell">Контакт</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {subscribers.map(subscriber => (
-                      <TableRow key={subscriber.id} className="hover:bg-gray-50">
-                        <TableCell className="font-medium">{subscriber.name}</TableCell>
-                        <TableCell>{subscriber.inn}</TableCell>
-                        <TableCell className="font-mono text-sm">{subscriber.account}</TableCell>
-                        <TableCell>{subscriber.phone}</TableCell>
-                        <TableCell>{subscriber.contact}</TableCell>
+                      <TableRow key={subscriber.id}>
+                        <TableCell className="font-medium text-xs">{subscriber.name}</TableCell>
+                        <TableCell className="text-xs">{subscriber.inn}</TableCell>
+                        <TableCell className="font-mono text-xs hidden md:table-cell">{subscriber.account}</TableCell>
+                        <TableCell className="text-xs hidden lg:table-cell">{subscriber.phone}</TableCell>
+                        <TableCell className="text-xs hidden lg:table-cell">{subscriber.contact}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -351,37 +346,36 @@ const Index = () => {
             </Card>
           </TabsContent>
 
-          <TabsContent value="calls" className="space-y-4">
+          <TabsContent value="calls">
             <Card>
-              <CardHeader>
-                <CardTitle>Реестр звонков</CardTitle>
-                <CardDescription>История всех телефонных переговоров</CardDescription>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Реестр звонков</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-0">
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Абонент</TableHead>
-                      <TableHead>Город</TableHead>
-                      <TableHead>Дата и время</TableHead>
-                      <TableHead>Длительность</TableHead>
-                      <TableHead>Время суток</TableHead>
-                      <TableHead className="text-right">Стоимость</TableHead>
+                      <TableHead className="text-xs">Абонент</TableHead>
+                      <TableHead className="text-xs">Город</TableHead>
+                      <TableHead className="text-xs hidden md:table-cell">Дата</TableHead>
+                      <TableHead className="text-xs">Длит.</TableHead>
+                      <TableHead className="text-xs hidden sm:table-cell">Период</TableHead>
+                      <TableHead className="text-xs text-right">Сумма</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {calls.map(call => (
-                      <TableRow key={call.id} className="hover:bg-gray-50">
-                        <TableCell className="font-medium">{getSubscriberName(call.subscriberId)}</TableCell>
-                        <TableCell>{call.city}</TableCell>
-                        <TableCell className="text-sm">{call.date}</TableCell>
-                        <TableCell>{call.duration} мин</TableCell>
-                        <TableCell>
-                          <Badge variant={call.timeOfDay === 'day' ? 'default' : 'secondary'}>
+                      <TableRow key={call.id}>
+                        <TableCell className="font-medium text-xs">{getSubscriberName(call.subscriberId)}</TableCell>
+                        <TableCell className="text-xs">{call.city}</TableCell>
+                        <TableCell className="text-xs text-muted-foreground hidden md:table-cell">{call.date}</TableCell>
+                        <TableCell className="text-xs">{call.duration} мин</TableCell>
+                        <TableCell className="hidden sm:table-cell">
+                          <Badge variant={call.timeOfDay === 'day' ? 'default' : 'secondary'} className="text-xs px-1.5 py-0">
                             {call.timeOfDay === 'day' ? 'День' : 'Ночь'}
                           </Badge>
                         </TableCell>
-                        <TableCell className="text-right font-semibold">{call.cost.toFixed(2)} ₽</TableCell>
+                        <TableCell className="text-right font-semibold text-xs">{call.cost.toFixed(2)} ₽</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -390,32 +384,31 @@ const Index = () => {
             </Card>
           </TabsContent>
 
-          <TabsContent value="tariffs" className="space-y-4">
+          <TabsContent value="tariffs">
             <Card>
-              <CardHeader>
-                <CardTitle>Тарифы и скидки</CardTitle>
-                <CardDescription>Стоимость минуты и система скидок по городам</CardDescription>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Тарифы и скидки</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-3">
                 {tariffs.map(tariff => (
-                  <div key={tariff.city} className="border border-gray-200 rounded-lg p-4 space-y-3">
-                    <h3 className="text-lg font-semibold text-gray-900">{tariff.city}</h3>
-                    <div className="grid grid-cols-2 gap-4">
+                  <div key={tariff.city} className="border rounded-lg p-3 space-y-2">
+                    <h3 className="font-semibold text-sm">{tariff.city}</h3>
+                    <div className="grid grid-cols-2 gap-2">
                       <div>
-                        <span className="text-sm text-gray-600">Дневной тариф:</span>
-                        <p className="text-xl font-bold text-primary">{tariff.dayRate} ₽/мин</p>
+                        <div className="text-xs text-muted-foreground">Дневной</div>
+                        <div className="text-base font-bold text-primary">{tariff.dayRate} ₽/мин</div>
                       </div>
                       <div>
-                        <span className="text-sm text-gray-600">Ночной тариф:</span>
-                        <p className="text-xl font-bold text-primary">{tariff.nightRate} ₽/мин</p>
+                        <div className="text-xs text-muted-foreground">Ночной</div>
+                        <div className="text-base font-bold text-primary">{tariff.nightRate} ₽/мин</div>
                       </div>
                     </div>
                     <div>
-                      <span className="text-sm text-gray-600 block mb-2">Скидки по длительности:</span>
-                      <div className="flex flex-wrap gap-2">
+                      <div className="text-xs text-muted-foreground mb-1.5">Скидки</div>
+                      <div className="flex flex-wrap gap-1">
                         {tariff.discounts.map((discount, idx) => (
-                          <Badge key={idx} variant="outline" className="text-sm">
-                            от {discount.from} мин → {discount.discount}%
+                          <Badge key={idx} variant="outline" className="text-xs px-1.5 py-0">
+                            {discount.from}+ мин: {discount.discount}%
                           </Badge>
                         ))}
                       </div>
@@ -426,24 +419,23 @@ const Index = () => {
             </Card>
           </TabsContent>
 
-          <TabsContent value="analytics" className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <TabsContent value="analytics">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
               <Card>
-                <CardHeader>
-                  <CardTitle>Топ городов</CardTitle>
-                  <CardDescription>По количеству звонков</CardDescription>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base">Топ городов</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-3">
+                  <div className="space-y-2">
                     {topCities.map(([city, count], idx) => (
-                      <div key={city} className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                      <div key={city} className="flex items-center justify-between py-1">
+                        <div className="flex items-center gap-2">
+                          <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-bold">
                             {idx + 1}
                           </div>
-                          <span className="font-medium">{city}</span>
+                          <span className="text-xs font-medium">{city}</span>
                         </div>
-                        <Badge variant="secondary">{count} звонков</Badge>
+                        <Badge variant="secondary" className="text-xs px-1.5 py-0">{count}</Badge>
                       </div>
                     ))}
                   </div>
@@ -451,20 +443,19 @@ const Index = () => {
               </Card>
 
               <Card>
-                <CardHeader>
-                  <CardTitle>Распределение по времени</CardTitle>
-                  <CardDescription>День vs Ночь</CardDescription>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base">Распределение по времени</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     <div>
-                      <div className="flex justify-between mb-2">
-                        <span className="text-sm text-gray-600">Дневные звонки</span>
-                        <span className="text-sm font-medium">
+                      <div className="flex justify-between mb-1">
+                        <span className="text-xs text-muted-foreground">Дневные звонки</span>
+                        <span className="text-xs font-medium">
                           {calls.filter(c => c.timeOfDay === 'day').length} ({((calls.filter(c => c.timeOfDay === 'day').length / calls.length) * 100).toFixed(0)}%)
                         </span>
                       </div>
-                      <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
+                      <div className="h-2 bg-secondary rounded-full overflow-hidden">
                         <div
                           className="h-full bg-primary rounded-full transition-all"
                           style={{ width: `${(calls.filter(c => c.timeOfDay === 'day').length / calls.length) * 100}%` }}
@@ -472,15 +463,15 @@ const Index = () => {
                       </div>
                     </div>
                     <div>
-                      <div className="flex justify-between mb-2">
-                        <span className="text-sm text-gray-600">Ночные звонки</span>
-                        <span className="text-sm font-medium">
+                      <div className="flex justify-between mb-1">
+                        <span className="text-xs text-muted-foreground">Ночные звонки</span>
+                        <span className="text-xs font-medium">
                           {calls.filter(c => c.timeOfDay === 'night').length} ({((calls.filter(c => c.timeOfDay === 'night').length / calls.length) * 100).toFixed(0)}%)
                         </span>
                       </div>
-                      <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
+                      <div className="h-2 bg-secondary rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-gray-400 rounded-full transition-all"
+                          className="h-full bg-muted-foreground rounded-full transition-all"
                           style={{ width: `${(calls.filter(c => c.timeOfDay === 'night').length / calls.length) * 100}%` }}
                         />
                       </div>
@@ -491,18 +482,17 @@ const Index = () => {
             </div>
 
             <Card>
-              <CardHeader>
-                <CardTitle>Расходы по абонентам</CardTitle>
-                <CardDescription>Общая стоимость звонков за период</CardDescription>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Расходы по абонентам</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-0">
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Абонент</TableHead>
-                      <TableHead>Количество звонков</TableHead>
-                      <TableHead>Общая длительность</TableHead>
-                      <TableHead className="text-right">Сумма к оплате</TableHead>
+                      <TableHead className="text-xs">Абонент</TableHead>
+                      <TableHead className="text-xs">Звонков</TableHead>
+                      <TableHead className="text-xs hidden sm:table-cell">Длительность</TableHead>
+                      <TableHead className="text-xs text-right">Сумма</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -512,11 +502,11 @@ const Index = () => {
                       const totalCost = subscriberCalls.reduce((sum, c) => sum + c.cost, 0);
 
                       return (
-                        <TableRow key={subscriber.id} className="hover:bg-gray-50">
-                          <TableCell className="font-medium">{subscriber.name}</TableCell>
-                          <TableCell>{subscriberCalls.length}</TableCell>
-                          <TableCell>{totalDuration} мин</TableCell>
-                          <TableCell className="text-right font-bold text-primary">{totalCost.toFixed(2)} ₽</TableCell>
+                        <TableRow key={subscriber.id}>
+                          <TableCell className="font-medium text-xs">{subscriber.name}</TableCell>
+                          <TableCell className="text-xs">{subscriberCalls.length}</TableCell>
+                          <TableCell className="text-xs hidden sm:table-cell">{totalDuration} мин</TableCell>
+                          <TableCell className="text-right font-bold text-primary text-xs">{totalCost.toFixed(2)} ₽</TableCell>
                         </TableRow>
                       );
                     })}
